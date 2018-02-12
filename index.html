@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="build/css/vendor.css">
+    <link rel="stylesheet" href="build/css/styles.css">
+    <script src="build/js/vendor.min.js"></script>
+    <script type="text/javascript" src="build/js/app.js"></script>
+    <title>Not-a-Gotchi!</title>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="display">
+          <h1>Tamagotcha!</h1>
+          <hr>
+          <div id="play-button">
+            <form id="start-play">
+              <div class="form-control">
+                <label for="name">Name your pet:</label>
+                <input type="text" name="name" id="name">
+                <button type="submit" name="play">begin</button>
+              </div>
+            </form>
+          </div>
+          <div id="play-area">
+            <div class="row">
+              <div class="col-md-3">
+                <h4>Health</h4>
+                  <div id="healthbar" class="progress">
+                    <div class="progress-bar" id="currentHP" role="progressbar" style="width: 100%"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h3><span id="petName"></span></h3>
+                  <p>Age: <span id="age"></span></p>
+                  <img src="img/doggo.gif"  height="150px">
+                </div>
+                <div class="col-md-3">
+                  <h4>Log</h4>
+                  <p><span id="log"></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="controller">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="progress">
+            <div id="foodLevel" class="progress-bar" role="progressbar" style="width: 50%"></div>
+          </div>
+          <form  id="feed">
+            <div class="form-group">
+              <select class="custom-select" id="food">
+                <option value="fruit">fruit</option>
+                <option value="vegetable">vegetable</option>
+                <option value="meat">meat</option>
+              </select>
+            </div>
+            <button class="btn-primary" type="submit" id="feed-button">feed</button>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <div class="progress">
+              <div id="happinessLevel"class="progress-bar" role="progressbar" style="width: 50%"></div>
+          </div>
+          <form  id="play">
+            <div class="form-group">
+              <select class="custom-select" id="game">
+                <option value="fetch">fetch</option>
+                <option value="checkers">checkers</option>
+                <option value="tug-of-war">tug-of-war</option>
+              </select>
+            </div>
+            <button class="btn-primary" type="submit" id="play-button">play</button>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <div class="progress">
+            <div id="restLevel"  class="progress-bar" role="progressbar" style="width: 50%"></div>
+          </div>
+          <form  id="sleep">
+            <div class="form-group">
+              <select class="custom-select" id="hours">
+                <option value="1">1 hour</option>
+                <option value="2">2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4 hours</option>
+                <option value="5">5 hours</option>
+                <option value="6">6 hours</option>
+                <option value="7">7 hours</option>
+                <option value="8">8 hours</option>
+              </select>
+            </div>
+            <button class="btn-primary" type="submit" id="feed-button">sleep</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

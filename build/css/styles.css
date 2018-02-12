@@ -1,0 +1,35 @@
+.display {
+  height: 400px;
+  background-color: lightgray;
+}
+
+
+
+
+body {
+  text-align: center;
+  background-color: darkgray;
+}
+
+.progress {
+  margin: 5%;
+}
+
+.custom-select {
+  width: 50%;
+}
+
+.col-md-3 {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: lightgray;
+  padding-bottom: 10px;
+}
+
+#healthbar {
+  transform: rotate(-90deg);
+  width: 200px;
+  margin-top: 110px;
+  margin-left: 30px;
+}
