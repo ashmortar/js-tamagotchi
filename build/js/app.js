@@ -1,4 +1,7 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+exports.apiKey = "ZPWr6qfQIxAqp54JHs2XuRCn2QEWlMSa";
+
+},{}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -39,9 +42,10 @@ var Tamagotchi = exports.Tamagotchi = function () {
         _this.happinessLevel--;
         _this.restLevel--;
         _this.counter++;
-        if (_this.counter % 10 === 0) {
+        if (_this.counter % 20 === 0) {
           _this.age++;
-          _this.maxHP = 10 + 10 * _this.age;
+          _this.maxHP += 10;
+          _this.currentHP += 10;
         }
         if (_this.happinessLevel < 0 || _this.happinessLevel > 10) {
           _this.currentHP -= 1;
@@ -75,12 +79,7 @@ var Tamagotchi = exports.Tamagotchi = function () {
         this.currentHP += 1;
         this.runChecks();
         return this.name + ' LOVED ' + food + '! Its health increased 1 and its food level increased 5';
-      } else if (this.favoriteFood === 'vegetable' && food === 'meat') {
-        this.foodLevel -= 1;
-        this.currentHP -= 1;
-        this.runChecks();
-        return this.name + ' HATED ' + food + '! Its health decreased 1 and its food level decreased 1';
-      } else if (this.favoriteFood === 'meat' && food === 'vegetable') {
+      } else if (this.favoriteFood === 'vegetable' && food === 'meat' || this.favoriteFood === 'meat' && food === 'vegetable') {
         this.foodLevel -= 1;
         this.currentHP -= 1;
         this.runChecks();
@@ -133,17 +132,78 @@ var Tamagotchi = exports.Tamagotchi = function () {
   return Tamagotchi;
 }();
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 var _tamagotchi = require('./../js/tamagotchi.js');
 
+var _env = require('./../.env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 $(document).ready(function () {
+  var ageCheck = -1;
+  $('#starter').show();
+  $('#play-area').hide();
   //game start function
   $('#start-play').submit(function (event) {
     event.preventDefault();
     var name = $('#name').val();
     var newTamagotchi = new _tamagotchi.Tamagotchi(name);
+
+    var portrait = setInterval(function () {
+      var lifeStage = void 0;
+      switch (newTamagotchi.age) {
+        case 0:
+          lifeStage = "zygote";
+          break;
+
+        case 1:
+          lifeStage = "baby animal";
+          break;
+
+        case 2:
+          lifeStage = "pokemon";
+          break;
+
+        case 3:
+          lifeStage = "evolved pokemon";
+          break;
+        case 4:
+          lifeStage = "legendary pokemon";
+          break;
+        default:
+          lifeStage = "skeleton";
+          break;
+      }
+      if (ageCheck < newTamagotchi.age) {
+        var promise = new Promise(function (resolve, reject) {
+          var request = new XMLHttpRequest();
+          var url = 'https://api.giphy.com/v1/gifs/search?api_key=' + _env2.default.apiKey + '&q=' + lifeStage + '&limit=25&offset=0&rating=G&lang=en';
+          request.onload = function () {
+            if (this.status === 200) {
+              resolve(request.response);
+            } else {
+              reject(Error(request.statusText));
+            }
+          };
+          request.open("GET", url, true);
+          request.send();
+        });
+
+        promise.then(function (response) {
+          var body = JSON.parse(response);
+          $('#representation').prop("src", body.data[Math.floor(Math.random() * 24)].images.fixed_height.url);
+          alert("Your pet has grown!");
+        }, function (error) {
+          console.log(error.message);
+        });
+        ageCheck = newTamagotchi.age;
+      }
+    }, 1000);
+
     $('#starter').hide();
     $('#play-area').fadeIn();
     newTamagotchi.startTimer();
@@ -184,4 +244,4 @@ $(document).ready(function () {
   });
 });
 
-},{"./../js/tamagotchi.js":1}]},{},[2]);
+},{"./../.env":1,"./../js/tamagotchi.js":2}]},{},[3]);

@@ -1,6 +1,6 @@
 
-export class Tamagotchi {
 
+export class Tamagotchi {
 
   constructor(name) {
     const foodTypes = ['fruit', 'vegetable', 'meat'];
@@ -25,9 +25,10 @@ export class Tamagotchi {
       this.happinessLevel --;
       this.restLevel --;
       this.counter ++;
-      if (this.counter % 10 === 0) {
+      if (this.counter % 20 === 0) {
         this.age ++;
-        this.maxHP = 10 + (10 * this.age);
+        this.maxHP += 10;
+        this.currentHP += 10;
       }
       if (this.happinessLevel < 0 || this.happinessLevel > 10) {
         this.currentHP -= 1;
@@ -59,12 +60,7 @@ export class Tamagotchi {
       this.currentHP += 1;
       this.runChecks();
       return `${this.name} LOVED ${food}! Its health increased 1 and its food level increased 5`;
-    } else if (this.favoriteFood === 'vegetable' && food === 'meat') {
-      this.foodLevel -= 1;
-      this.currentHP -= 1;
-      this.runChecks();
-      return `${this.name} HATED ${food}! Its health decreased 1 and its food level decreased 1`;
-    } else if (this.favoriteFood === 'meat' && food === 'vegetable') {
+    } else if ((this.favoriteFood === 'vegetable' && food === 'meat') || (this.favoriteFood === 'meat' && food === 'vegetable')) {
       this.foodLevel -= 1;
       this.currentHP -= 1;
       this.runChecks();
