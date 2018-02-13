@@ -16,11 +16,11 @@ $(document).ready(function() {
       let lifeStage;
       switch (newTamagotchi.age) {
         case 0:
-          lifeStage = "zygote";
+          lifeStage = "hatching";
           break;
 
         case 1:
-          lifeStage = "baby animal";
+          lifeStage = "growing";
           break;
 
         case 2:
