@@ -4,7 +4,7 @@ export class Tamagotchi {
 
   constructor(name) {
     const foodTypes = ['fruit', 'vegetable', 'meat'];
-    const playTypes = ['fetch', 'rugby', 'tug-of-war'];
+    const playTypes = ['fetch', 'checkers', 'tug-of-war'];
 
     this.name = name;
     this.foodLevel = 10;
@@ -15,8 +15,8 @@ export class Tamagotchi {
     this.isDead = false;
     this.maxHP = 10;
     this.currentHP = 10;
-    this.favoriteFood = 'meat';  //foodTypes[Math.floor(Math.random() * (foodTypes.length))];
-    this.favoritePlay = 'tug-of-war';  //playTypes[Math.floor(Math.random() * (playTypes.length))];
+    this.favoriteFood = foodTypes[Math.floor(Math.random() * (foodTypes.length))];
+    this.favoritePlay = playTypes[Math.floor(Math.random() * (playTypes.length))];
   }
 
   startTimer() {
@@ -76,26 +76,26 @@ export class Tamagotchi {
     }
   }
 
-  play(play){
+  play(game){
     if (this.isDead) {
       return `${this.name} has died due to your inability to care for it :(`;
     }
-    if(play === this.favoritePlay) {
+    if(game === this.favoritePlay) {
       this.happinessLevel += 5;
       this.runChecks();
-      return `${this.name} LOVED ${play}! Its happiness level increased 5.`;
-    } else if ( this.favoritePlay === 'fetch' && play === 'tug-of-war' ){
+      return `${this.name} LOVED ${game}! Its happiness level increased 5.`;
+    } else if ( this.favoritePlay === 'fetch' && game === 'tug-of-war' ){
       this.happinessLevel -= 5;
       this.runChecks();
-      return `${this.name} HATED ${play}! Its happiness level decreased 5.`;
-    } else if ( this.favoritePlay === 'tug-of-war' && play === 'fetch' ) {
+      return `${this.name} HATED ${game}! Its happiness level decreased 5.`;
+    } else if ( this.favoritePlay === 'tug-of-war' && game === 'fetch' ) {
       this.happinessLevel -= 5;
       this.runChecks();
-      return `${this.name} HATED ${play}! Its happiness level decreased 5.`;
+      return `${this.name} HATED ${game}! Its happiness level decreased 5.`;
     } else {
       this.happinessLevel += 1;
       this.runChecks();
-      return `${this.name} played ${play}! Its happiness level increased 1.`;
+      return `${this.name} played ${game}! Its happiness level increased 1.`;
     }
   }
 

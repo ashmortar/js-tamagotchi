@@ -9,12 +9,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tamagotchi = function () {
+var Tamagotchi = exports.Tamagotchi = function () {
   function Tamagotchi(name) {
     _classCallCheck(this, Tamagotchi);
 
     var foodTypes = ['fruit', 'vegetable', 'meat'];
-    var playTypes = ['fetch', 'rugby', 'tug-of-war'];
+    var playTypes = ['fetch', 'checkers', 'tug-of-war'];
 
     this.name = name;
     this.foodLevel = 10;
@@ -25,8 +25,8 @@ var Tamagotchi = function () {
     this.isDead = false;
     this.maxHP = 10;
     this.currentHP = 10;
-    this.favoriteFood = 'meat'; //foodTypes[Math.floor(Math.random() * (foodTypes.length))];
-    this.favoritePlay = 'tug-of-war'; //playTypes[Math.floor(Math.random() * (playTypes.length))];
+    this.favoriteFood = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+    this.favoritePlay = playTypes[Math.floor(Math.random() * playTypes.length)];
   }
 
   _createClass(Tamagotchi, [{
@@ -93,26 +93,26 @@ var Tamagotchi = function () {
     }
   }, {
     key: 'play',
-    value: function play(_play) {
+    value: function play(game) {
       if (this.isDead) {
         return this.name + ' has died due to your inability to care for it :(';
       }
-      if (_play === this.favoritePlay) {
+      if (game === this.favoritePlay) {
         this.happinessLevel += 5;
         this.runChecks();
-        return this.name + ' LOVED ' + _play + '! Its happiness level increased 5.';
-      } else if (this.favoritePlay === 'fetch' && _play === 'tug-of-war') {
+        return this.name + ' LOVED ' + game + '! Its happiness level increased 5.';
+      } else if (this.favoritePlay === 'fetch' && game === 'tug-of-war') {
         this.happinessLevel -= 5;
         this.runChecks();
-        return this.name + ' HATED ' + _play + '! Its happiness level decreased 5.';
-      } else if (this.favoritePlay === 'tug-of-war' && _play === 'fetch') {
+        return this.name + ' HATED ' + game + '! Its happiness level decreased 5.';
+      } else if (this.favoritePlay === 'tug-of-war' && game === 'fetch') {
         this.happinessLevel -= 5;
         this.runChecks();
-        return this.name + ' HATED ' + _play + '! Its happiness level decreased 5.';
+        return this.name + ' HATED ' + game + '! Its happiness level decreased 5.';
       } else {
         this.happinessLevel += 1;
         this.runChecks();
-        return this.name + ' played ' + _play + '! Its happiness level increased 1.';
+        return this.name + ' played ' + game + '! Its happiness level increased 1.';
       }
     }
   }, {
@@ -133,8 +133,6 @@ var Tamagotchi = function () {
   return Tamagotchi;
 }();
 
-exports.Tamagotchi = Tamagotchi;
-
 },{}],2:[function(require,module,exports){
 'use strict';
 
@@ -146,7 +144,7 @@ $(document).ready(function () {
     event.preventDefault();
     var name = $('#name').val();
     var newTamagotchi = new _tamagotchi.Tamagotchi(name);
-    $('#play-button').hide();
+    $('#starter').hide();
     $('#play-area').fadeIn();
     newTamagotchi.startTimer();
     var timer = setInterval(function () {
@@ -156,14 +154,34 @@ $(document).ready(function () {
       $('#foodLevel').prop("style", 'width: ' + newTamagotchi.foodLevel / 10 * 100 + '%');
       $('#happinessLevel').prop("style", 'width: ' + newTamagotchi.happinessLevel / 10 * 100 + '%');
       $('#restLevel').prop("style", 'width: ' + newTamagotchi.restLevel / 10 * 100 + '%');
-    }, 500);
+      if (newTamagotchi.isDead) {
+        window.location.reload(true);
+        alert("your pet has died");
+      }
+    }, 1000);
+    var clear = setInterval(function () {
+      if (newTamagotchi.isDead) {
+        clearInterval(timer);
+      }
+    }, 1000);
+    //feed click function
+    $('#feed-button').click(function () {
+      console.log("feed");
+      var food = $('#food').val();
+      $('#log').prepend("<li>" + newTamagotchi.feed(food) + "</li>");
+    });
+    //play click function
+    $('#play-button').click(function () {
+      var game = $('#game').val();
+      $('#log').prepend("<li>" + newTamagotchi.play(game) + "</li>");
+    });
+
+    //sleep click function
+    $('#sleep-button').click(function () {
+      var hours = parseInt($('#hours').val());
+      $('#log').prepend("<li>" + newTamagotchi.sleep(hours) + "</li>");
+    });
   });
-
-  //feed click function
-
-  //play click function
-
-  //sleep click function
 });
 
 },{"./../js/tamagotchi.js":1}]},{},[2]);
